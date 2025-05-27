@@ -1,45 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Situationship Express™ 🐾</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      color: #4b2e2e;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-image: url('images/cat-background.png.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Situationship Express™ 🐾</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        color: #4b2e2e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-image: url('images/cat-background.png.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
 
-    .container {
-      background: rgba(255, 255, 255, 0.85);
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      max-width: 400px;
-    }
+      .container {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+      }
 
-    h1 {
-      font-size: 2em;
-      margin-bottom: 0.5em;
-    }
+      h1 {
+        font-size: 2em;
+        margin-bottom: 0.5em;
+      }
 
-    p {
-      font-size: 1em;
-      margin-bottom: 1.5em;
-    }
+      p {
+        font-size: 1em;
+        margin-bottom: 1.5em;
+      }
 
-    button {
+       button {
       background-color: #ffd6e0;
       color: #4b2e2e;
       border: none;
@@ -48,6 +48,7 @@
       border-radius: 12px;
       cursor: pointer;
       transition: background 0.3s;
+      margin-bottom: 1rem; /* 👈 This is the only change (adds space between buttons) */
     }
 
     button:hover {
@@ -74,10 +75,17 @@
     <a href="order.html">
       <button>📦 Place Your Order</button>
     </a>
+
+    <a href="affirmation.html">
+      <button>💖 Open Affirmation Corner</button>
+    </a>
   </div>
 
   <!-- 🎵 Hidden continuous music -->
-  <iframe src="music/dreamy-skies.mp3.mp3" allow="autoplay" style="display:none;"></iframe>
+  <audio autoplay loop hidden>
+    <source src="music/dreamy-skies.mp3" type="audio/mpeg">
+  </audio>
 
 </body>
 </html>
+

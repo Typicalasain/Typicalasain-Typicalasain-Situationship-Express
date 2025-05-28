@@ -68,8 +68,13 @@
 </head>
 <body>
   <div class="form-box">
-    <h2> Order Form 💌</h2>
-    <form action="https://formsubmit.co/heinsan064@gmail.com" method="POST">
+    <h2>Order Form 💌</h2>
+
+    <form method="POST" action="https://formsubmit.co/heinsan064@gmail.com">
+      <!-- Hidden inputs for redirect -->
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value="confirmation.html" />
+
       <label for="craving">What are you craving today?</label>
       <textarea id="craving" name="craving" rows="3" placeholder="e.g. cuddles, deep talk, spicy sushi, vibes..." required></textarea>
 
@@ -77,25 +82,22 @@
       <select id="package" name="package" required>
         <option value="" disabled selected>Select your package</option>
         <option value="basic">Basic Flirt Pack™</option>
-        <option value="Comfort">Comfort Food Bundle™</option>
+        <option value="Comfort Food">Comfort Food Bundle™</option>
         <option value="Care">Comfort And Care Bundle™</option>
-        <option value="Period">Period Care Bundle™ </option>
-        <option value="Supprise">Surprise Me Sansan!™</option>
+        <option value="Period">Period Care Bundle™</option>
+        <option value="Surprise">Surprise Me Sansan!™</option>
         <option value="Boyfriend">Boyfriend Package™</option>
       </select>
 
       <label for="addons">Special instructions / Add-ons:</label>
       <input type="text" id="addons" name="addons" placeholder="e.g. Headpats, no onions, voice note please...?" />
 
-      <input type="hidden" name="_captcha" value="false" />
-      <input type="hidden" name="_next" value="confirmation.html" />
-
       <button type="submit">📦 Submit Order</button>
     </form>
   </div>
 
-  <!-- 🎵 Hidden continuous music -->
-  <iframe src="music/dreamy-skies.mp3.mp3" allow="autoplay" style="display:none;"></iframe>
+  <!-- 🎵 Background music -->
+  <iframe src="music/dreamy-skies.mp3" allow="autoplay" style="display:none;"></iframe>
 
 </body>
 </html>

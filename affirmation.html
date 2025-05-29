@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Situationship Express™ – Sticky Note Picker</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background: url('images/NOTE%20BED.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #6fb1fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .cat {
+      width: 120px;
+      height: 120px;
+      background: url('https://cdn.jsdelivr.net/gh/meowish/cat-loader/cat-loader.png') no-repeat center;
+      background-size: contain;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .picker-box {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .question {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      background: #ffeaa7;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #fbc531;
+    }
+
+    .back-btn, .home-btn {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #333;
+      background: none;
+      border: none;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .note {
+      background: url('images/Stikcy%20note.jpg') no-repeat center center;
+      background-size: cover;
+      padding: 80px 50px;
+      font-size: 1.2rem;
+      width: 350px;
+      min-height: 250px;
+      margin: 20px auto 0;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .retry-btn {
+      margin-top: 20px;
+      background: #dfe6e9;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .surprise {
+      font-size: 0.9rem;
+      color: #666;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="cat"></div>
+</div>
+
+<div class="container" id="quiz">
+  <div class="picker-box">
+    <div class="question" id="questionText">How are you feeling today?</div>
+    <div class="options" id="options"></div>
+    <button class="back-btn" id="backBtn" style="display:none;">Back</button>
+    <div class="surprise" onclick="surpriseMe()">or just surprise me</div>
+    <div class="note" id="resultCard" style="display: none;">
+      <div id="resultText"></div>
+      <button class="retry-btn" onclick="showAnother()">Give me another one</button>
+    </div>
+  </div>
+  <button class="home-btn" onclick="window.location.href='index.html'">← Back to Home Page</button>
+</div>
+
+<script>
+  // affirmationBank object with over 100 affirmations goes here (will be pasted in next step)
+</script>
+
+<script>
+  const quiz = document.getElementById("quiz");
+  const questionText = document.getElementById("questionText");
+  const options = document.getElementById("options");
+  const backBtn = document.getElementById("backBtn");
+  const resultCard = document.getElementById("resultCard");
+  const resultText = document.getElementById("resultText");
+
+  let step = 1;
+  let mood = '';
+  let need = '';
+  let currentCombo = [];
+  let lastMood = '';
+  let lastNeed = '';
+
+  function setOptions(list, isMoodStep) {
+    options.innerHTML = "";
+    list.forEach(item => {
+      const btn = document.createElement("button");
+      btn.innerText = item;
+      btn.className = "btn";
+      btn.onclick = () => handleSelection(item, isMoodStep);
+      options.appendChild(btn);
+    });
+  }
+
+  function handleSelection(choice, isMood) {
+    if (isMood) {
+      mood = choice;
+      step = 2;
+      questionText.innerText = "What do you need right now?";
+      const needOptions = Object.keys(affirmationBank[mood] || {});
+      setOptions(needOptions, false);
+      backBtn.style.display = "inline-block";
+    } else {
+      need = choice;
+      showResult(mood, need);
+    }
+  }
+
+  function showResult(m, n) {
+    mood = m;
+    need = n;
+    lastMood = m;
+    lastNeed = n;
+
+    const match = affirmationBank[mood]?.[need] || [];
+    currentCombo = match.length ? match : [];
+    const selected = currentCombo[Math.floor(Math.random() * currentCombo.length)];
+    resultText.innerText = selected || "no words, but still thinking of you.";
+    resultCard.style.display = "flex";
+  }
+
+  function showAnother() {
+    if (!currentCombo.length && lastMood && lastNeed) {
+      const match = affirmationBank[lastMood]?.[lastNeed] || [];
+      currentCombo = match.length ? match : [];
+    }
+
+    if (currentCombo.length) {
+      const randomPick = currentCombo[Math.floor(Math.random() * currentCombo.length)];
+      resultText.innerText = randomPick;
+    } else {
+      resultText.innerText = "no more affirmations found, but hey, i’m still here for you.";
+    }
+  }
+
+  function surpriseMe() {
+    const allLines = [];
+    Object.values(affirmationBank).forEach(group => {
+      Object.values(group).forEach(lines => {
+        allLines.push(...lines);
+      });
+    });
+    const pick = allLines[Math.floor(Math.random() * allLines.length)];
+    resultText.innerText = pick;
+    resultCard.style.display = "flex";
+    questionText.style.display = "none";
+    options.innerHTML = "";
+    backBtn.style.display = "none";
+  }
+
+  backBtn.onclick = () => {
+    step = 1;
+    questionText.innerText = "How are you feeling today?";
+    setOptions(Object.keys(affirmationBank), true);
+    resultCard.style.display = "none";
+    questionText.style.display = "block";
+    backBtn.style.display = "none";
+  };
+
+  window.onload = () => {
+    setTimeout(() => {
+      document.getElementById("loader").style.display = "none";
+      quiz.style.display = "flex";
+      setOptions(Object.keys(affirmationBank), true);
+    }, 2500);
+  };
+</script>
+
+</body>
+</html>
